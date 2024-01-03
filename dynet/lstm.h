@@ -45,8 +45,8 @@ struct CoupledLSTMBuilder : public RNNBuilder {
    * \param model ParameterCollection holding the parameters
    */
   explicit CoupledLSTMBuilder(unsigned layers,
-                              unsigned input_dim,
-                              unsigned hidden_dim,
+                              int input_dim,
+                              int hidden_dim,
                               ParameterCollection& model);
 
   Expression back() const override { return (cur == -1 ? h0.back() : h[cur].back()); }
@@ -121,7 +121,7 @@ struct CoupledLSTMBuilder : public RNNBuilder {
    *
    * \param batch_size Batch size
    */
-  void set_dropout_masks(unsigned batch_size = 1);
+  void set_dropout_masks(int batch_size = 1);
   /**
    * \brief Get parameters in LSTMBuilder
    */
@@ -158,8 +158,8 @@ public:
   std::vector<Expression> h0;
   std::vector<Expression> c0;
   unsigned layers;
-  unsigned input_dim = 0;
-  unsigned hid = 0;
+  int input_dim = 0;
+  int hid = 0;
   bool dropout_masks_valid;
 
   float dropout_rate_h = 0.f, dropout_rate_c = 0.f;
@@ -206,8 +206,8 @@ struct VanillaLSTMBuilder : public RNNBuilder {
    * \param forget_bias value(float) to use as bias for the forget gate(default = 1.0)
    */
   explicit VanillaLSTMBuilder(unsigned layers,
-                              unsigned input_dim,
-                              unsigned hidden_dim,
+                              int input_dim,
+                              int hidden_dim,
                               ParameterCollection& model,
                               bool ln_lstm = false,
                               float forget_bias = 1.f);
@@ -272,7 +272,7 @@ struct VanillaLSTMBuilder : public RNNBuilder {
    *
    * \param batch_size Batch size
    */
-  void set_dropout_masks(unsigned batch_size = 1);
+  void set_dropout_masks(int batch_size = 1);
   /**
    * \brief Get parameters in VanillaLSTMBuilder
    * \return list of points to ParameterStorage objects
@@ -309,7 +309,8 @@ public:
   std::vector<Expression> h0;
   std::vector<Expression> c0;
   unsigned layers;
-  unsigned input_dim, hid;
+  unsigned input_dim;
+  int hid;
   float dropout_rate_h;
   bool ln_lstm;
   float forget_bias;
@@ -348,8 +349,8 @@ struct SparseLSTMBuilder : public RNNBuilder {
    * \param forget_bias value(float) to use as bias for the forget gate(default = 1.0)
    */
   explicit SparseLSTMBuilder(unsigned layers,
-                              unsigned input_dim,
-                              unsigned hidden_dim,
+                              int input_dim,
+                              int hidden_dim,
                               ParameterCollection& model,
                               bool ln_lstm = false,
                               float forget_bias = 1.f);
@@ -417,7 +418,7 @@ struct SparseLSTMBuilder : public RNNBuilder {
    *
    * \param batch_size Batch size
    */
-  void set_dropout_masks(unsigned batch_size = 1);
+  void set_dropout_masks(int batch_size = 1);
   /**
    * \brief Get parameters in SparseLSTMBuilder
    * \return list of points to ParameterStorage objects
@@ -454,7 +455,8 @@ public:
   std::vector<Expression> h0;
   std::vector<Expression> c0;
   unsigned layers;
-  unsigned input_dim, hid;
+  unsigned input_dim;
+  int hid;
   float dropout_rate_h;
   bool ln_lstm;
   float forget_bias;
@@ -495,8 +497,8 @@ struct CompactVanillaLSTMBuilder : public RNNBuilder {
    * \param model ParameterCollection holding the parameters
    */
   explicit CompactVanillaLSTMBuilder(unsigned layers,
-                              unsigned input_dim,
-                              unsigned hidden_dim,
+                              int input_dim,
+                              int hidden_dim,
                               ParameterCollection& model);
 
   Expression back() const override { return (cur == -1 ? h0.back() : h[cur].back()); }
@@ -558,7 +560,7 @@ struct CompactVanillaLSTMBuilder : public RNNBuilder {
    *
    * \param batch_size Batch size
    */
-  void set_dropout_masks(unsigned batch_size = 1);
+  void set_dropout_masks(int batch_size = 1);
   /**
    * \brief Get parameters in CompactVanillaLSTMBuilder
    * \return list of points to ParameterStorage objects
@@ -592,7 +594,8 @@ public:
   std::vector<Expression> h0;
   std::vector<Expression> c0;
   unsigned layers;
-  unsigned input_dim, hid;
+  int input_dim;
+  int hid;
   float dropout_rate_h;
   float weightnoise_std;
   bool dropout_masks_valid;

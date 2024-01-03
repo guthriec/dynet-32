@@ -263,7 +263,7 @@ void CwiseMultiply::backward_dev_impl(const MyDevice & dev,
       tvec(dEdxi).device(*dev.edevice) += tvec(dEdf) * tvec(*xs[1-i]);
     } else if(xs[1-i]->d.bd == 1) {
       // TODO: Make alternative code path for CPU?
-      Eigen::array<ptrdiff_t, 2> bcast = { 1, fx.d.bd };
+      Eigen::array<ptrdiff_t, 2> bcast = { 1, (long)fx.d.bd };
       tbvec(dEdxi).device(*dev.edevice) += tbvec(dEdf) * tbvec(*xs[1-i]).broadcast(bcast);
     } else {
       Eigen::array<ptrdiff_t, 1> red_axis = {1};

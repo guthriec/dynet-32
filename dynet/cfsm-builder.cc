@@ -16,7 +16,7 @@ SoftmaxBuilder::~SoftmaxBuilder() {}
 
 StandardSoftmaxBuilder::StandardSoftmaxBuilder() {}
 
-StandardSoftmaxBuilder::StandardSoftmaxBuilder(unsigned rep_dim, unsigned vocab_size, ParameterCollection& model, bool bias) : bias(bias) {
+StandardSoftmaxBuilder::StandardSoftmaxBuilder(int rep_dim, int vocab_size, ParameterCollection& model, bool bias) : bias(bias) {
   local_model = model.add_subcollection("standard-softmax-builder");
   p_w = local_model.add_parameters({vocab_size, rep_dim});
   if (bias)
@@ -78,13 +78,13 @@ Expression StandardSoftmaxBuilder::full_logits(const Expression& rep) {
 
 ClassFactoredSoftmaxBuilder::ClassFactoredSoftmaxBuilder() {}
 
-ClassFactoredSoftmaxBuilder::ClassFactoredSoftmaxBuilder(unsigned rep_dim,
+ClassFactoredSoftmaxBuilder::ClassFactoredSoftmaxBuilder(int rep_dim,
                              const std::string& cluster_file,
                              Dict& word_dict,
                              ParameterCollection& model,
                              bool bias) : bias(bias){
   read_cluster_file(cluster_file, word_dict);
-  const unsigned num_clusters = cdict.size();
+  const int num_clusters = cdict.size();
   local_model = model.add_subcollection("class-factored-softmax-builder");
   p_r2c = local_model.add_parameters({num_clusters, rep_dim});
   if (bias)
@@ -94,7 +94,7 @@ ClassFactoredSoftmaxBuilder::ClassFactoredSoftmaxBuilder(unsigned rep_dim,
     p_rcwbiases.resize(num_clusters);
   for (unsigned i = 0; i < num_clusters; ++i) {
     auto& words = cidx2words[i];  // vector of word ids
-    const unsigned num_words_in_cluster = words.size();
+    const int num_words_in_cluster = words.size();
     if (num_words_in_cluster > 1) {
       // for singleton clusters, we don't need these parameters, so
       // we don't create them

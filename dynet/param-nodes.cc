@@ -81,7 +81,7 @@ Node* InputNode::autobatch_pseudo_node(const ComputationGraph & cg,
     curr_pos += sin->pdata->size();
   }
   DYNET_ASSERT(curr_pos == values.size(), "current position and size of values does not match");
-  return new InputNode(Dim({(unsigned int)my_size}), values);
+  return new InputNode(Dim({(int)my_size}), values);
 }
 
 string SparseInputNode::as_string(const vector<string>& arg_names) const {

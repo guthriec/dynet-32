@@ -28,9 +28,9 @@ namespace dynet {
       DYNET_ARG_CHECK(xs.size() >= 5, "Failed input count check in VanillaLSTMGates");
     }
     unsigned num_inputs = dropout?xs.size()-6:xs.size()-4;
-    unsigned hidden_dim=xs[num_inputs][0];
+    int hidden_dim=xs[num_inputs][0];
     unsigned input_dim=xs[num_inputs+1][1];
-    unsigned batch_size=xs[0].bd;
+    int batch_size=xs[0].bd;
     unsigned inputs_dim_sum=0;
     for(unsigned i=0; i<num_inputs; i++){
         DYNET_ARG_CHECK(xs[i].ndims() == 1, "VanillaLSTMGates: x_t[" << i << "] expected to be a vector");
@@ -112,9 +112,9 @@ namespace dynet {
     const Tensor *Wh = xs[num_inputs+2];
     const Tensor *b  = xs[num_inputs+3];
 
-    unsigned hidden_dim = h_tm1.d[0];
-    unsigned input_dim = Wx->d[1];
-    unsigned batch_size = xs[0]->d.bd;
+    int hidden_dim = h_tm1.d[0];
+    int input_dim = Wx->d[1];
+    int batch_size = xs[0]->d.bd;
 
     Eigen::DSizes<ptrdiff_t, 2> indices_i(0, 0);
     Eigen::DSizes<ptrdiff_t, 2> indices_f(hidden_dim,0);
@@ -247,9 +247,9 @@ namespace dynet {
     const Tensor *Wh = xs[num_inputs+2];
 //    const Tensor *b  = xs[num_inputs+3];
 
-    unsigned hidden_dim = fx.d[0] / 4;
-    unsigned input_dim = Wx->d[1];
-    unsigned batch_size = xs[0]->d.bd;
+    int hidden_dim = fx.d[0] / 4;
+    int input_dim = Wx->d[1];
+    int batch_size = xs[0]->d.bd;
     Eigen::DSizes<ptrdiff_t, 3> indices_mat_i(0, 0, 0);
     Eigen::DSizes<ptrdiff_t, 3> indices_mat_g(hidden_dim*3, 0, 0);
     Eigen::DSizes<ptrdiff_t, 3> indices_mat_i_inp(0, 0, 0);
@@ -569,8 +569,8 @@ namespace dynet {
     const Tensor *c_tm1 = xs[0];
     const Tensor *gates_t = xs[1];
 
-    unsigned hidden_dim = c_tm1->d[0];
-    unsigned batch_size = c_tm1->d.bd;
+    int hidden_dim = c_tm1->d[0];
+    int batch_size = c_tm1->d.bd;
 
     Eigen::DSizes<ptrdiff_t, 2> indices_i(0, 0);
     Eigen::DSizes<ptrdiff_t, 2> indices_f(hidden_dim,0);
@@ -674,8 +674,8 @@ namespace dynet {
                                const Tensor& dEdf,
                                unsigned i,
                                Tensor& dEdxi) const {
-    unsigned hidden_dim = fx.d[0];
-    unsigned batch_size = fx.d.bd;
+    int hidden_dim = fx.d[0];
+    int batch_size = fx.d.bd;
     Eigen::DSizes<ptrdiff_t, 3> indices_o(hidden_dim*2,0,0);
     Eigen::DSizes<ptrdiff_t, 3> sizes_1(hidden_dim, 1, static_cast<ptrdiff_t>(batch_size));
 

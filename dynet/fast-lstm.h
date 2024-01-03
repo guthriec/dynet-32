@@ -15,8 +15,8 @@ FastLSTM replaces the matrices from cell to other units, by diagonal matrices.
 struct FastLSTMBuilder : public RNNBuilder {
   FastLSTMBuilder() = default;
   explicit FastLSTMBuilder(unsigned layers,
-                           unsigned input_dim,
-                           unsigned hidden_dim,
+                           int input_dim,
+                           int hidden_dim,
                            ParameterCollection& model);
 
   Expression back() const override { return (cur == -1? h0.back() : h[cur].back()); }
@@ -65,7 +65,7 @@ struct FastLSTMBuilder : public RNNBuilder {
   std::vector<Expression> h0;
   std::vector<Expression> c0;
   unsigned layers;
-  unsigned hid; // Hidden dimension
+  int hid; // Hidden dimension
 };
 
 } // namespace dynet

@@ -75,8 +75,8 @@ struct NaryTreeLSTMBuilder : public TreeLSTMBuilder {
   NaryTreeLSTMBuilder() = default;
   explicit NaryTreeLSTMBuilder(unsigned N, //Max branching factor
                        unsigned layers,
-                       unsigned input_dim,
-                       unsigned hidden_dim,
+                       int input_dim,
+                       int hidden_dim,
                        ParameterCollection& model);
 
   Expression add_input(int id, std::vector<int> children, const Expression& x) override;

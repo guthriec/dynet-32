@@ -32,11 +32,11 @@ struct SumElements : public Node {
 
 //y = \sum_i x_i
 struct SumDimension : public Node {
-  template <typename T> explicit SumDimension(const T& a, const std::vector<unsigned> & d, bool b=false) : Node(a), dims(d), include_batch_dim(b) {}
+  template <typename T> explicit SumDimension(const T& a, const std::vector<int> & d, bool b=false) : Node(a), dims(d), include_batch_dim(b) {}
   DYNET_NODE_DEFINE_DEV_IMPL()
   virtual bool supports_multibatch() const override { return true; }
 private:
-  std::vector<unsigned> dims;
+  std::vector<int> dims;
   bool include_batch_dim;
 };
 

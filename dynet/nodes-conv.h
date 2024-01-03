@@ -34,9 +34,9 @@ struct KMaxPooling : public Node {
   virtual bool supports_multibatch() const override { return true; }
   DYNET_NODE_DEFINE_DEV_IMPL()
   unsigned k;
-  unsigned pooled_dim;
-  unsigned first_dim;
-  unsigned second_dim;
+  int pooled_dim;
+  int first_dim;
+  int second_dim;
 };
 
 // y_i = \sum_{j=1}^n x_1:{i-1+j}

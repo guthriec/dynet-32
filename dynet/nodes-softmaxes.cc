@@ -547,7 +547,7 @@ void ConstrainedSoftmax::backward_dev_impl(const MyDevice & dev,
                                            const Tensor& dEdf,
                                            unsigned i,
                                            Tensor& dEdxi) const {
-  assert(i < xs.size());
+  DYNET_ASSERT(i < xs.size(), "");
 #ifdef __CUDACC__
   DYNET_NO_CUDA_IMPL_ERROR("ConstrainedSoftmax backward");
 #else

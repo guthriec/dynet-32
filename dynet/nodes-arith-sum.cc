@@ -22,7 +22,7 @@ string Sum::as_string(const vector<string>& arg_names) const {
 Dim Sum::dim_forward(const vector<Dim>& xs) const {
   DYNET_ARG_CHECK(xs.size() > 0, "Zero-length vector passed to Sum");
   Dim d = xs[0].truncate();
-  unsigned int batch = d.bd;
+  int batch = d.bd;
   for (unsigned i = 1; i < xs.size(); ++i) {
     DYNET_ARG_CHECK(d.single_batch() == xs[i].truncate().single_batch(),
                             "Mismatched input dimensions in Sum: " << xs);

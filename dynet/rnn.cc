@@ -18,12 +18,12 @@ enum { X2H=0, H2H, HB, L2H };
 RNNBuilder::~RNNBuilder() {}
 
 SimpleRNNBuilder::SimpleRNNBuilder(unsigned layers,
-                       unsigned input_dim,
-                       unsigned hidden_dim,
+                       int input_dim,
+                       int hidden_dim,
                        ParameterCollection& model,
                        bool support_lags) : layers(layers), input_dim_(input_dim),hidden_dim_(hidden_dim),lagging(support_lags) {
   local_model = model.add_subcollection("simple-rnn-builder");
-  unsigned layer_input_dim = input_dim;
+  int layer_input_dim = input_dim;
   for (unsigned i = 0; i < layers; ++i) {
     Parameter p_x2h = local_model.add_parameters({hidden_dim, layer_input_dim});
     Parameter p_h2h = local_model.add_parameters({hidden_dim, hidden_dim});
@@ -97,11 +97,11 @@ void SimpleRNNBuilder::disable_dropout(){
   dropout_rate = dropout_rate_h = 0.f;
 }
 
-void SimpleRNNBuilder::set_dropout_masks(unsigned batch_size){
+void SimpleRNNBuilder::set_dropout_masks(int batch_size){
   masks.clear();
   for (unsigned i = 0; i < layers; ++i) {
     std::vector<Expression> masks_i;
-    unsigned idim = (i == 0) ? input_dim_ : hidden_dim_;
+    int idim = (i == 0) ? input_dim_ : hidden_dim_;
     if (dropout_rate > 0.f || dropout_rate_h > 0.f) {
       float retention_rate = 1.f - dropout_rate;
       float retention_rate_h = 1.f - dropout_rate_h;

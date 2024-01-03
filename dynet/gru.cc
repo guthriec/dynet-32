@@ -13,10 +13,10 @@ namespace dynet {
 enum { X2Z, H2Z, BZ, X2R, H2R, BR, X2H, H2H, BH };
 
 GRUBuilder::GRUBuilder(unsigned layers,
-                       unsigned input_dim,
-                       unsigned hidden_dim,
+                       int input_dim,
+                       int hidden_dim,
                        ParameterCollection& model) : hidden_dim(hidden_dim), layers(layers) {
-  unsigned layer_input_dim = input_dim;
+  int layer_input_dim = input_dim;
   local_model = model.add_subcollection("gru-builder");
   for (unsigned i = 0; i < layers; ++i) {
     // z

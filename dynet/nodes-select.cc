@@ -426,7 +426,7 @@ void StridedSelect::forward_dev_impl(const MyDevice & dev, const vector<const Te
 
   // this is a workaround using aux memory, since slice and stride operators don't seem to be chainable
   AlignedMemoryPool* scratch_allocator = fx.device->pools[(int)DeviceMempool::SCS];
-  Tensor tmp_tensor(Dim({(unsigned)extents[0],(unsigned)extents[1],(unsigned)extents[2],(unsigned)extents[3]},(unsigned)extents[4]), nullptr, fx.device, fx.mem_pool);
+  Tensor tmp_tensor(Dim({extents[0],extents[1],extents[2],extents[3]},extents[4]), nullptr, fx.device, fx.mem_pool);
   tmp_tensor.v = static_cast<float*>(scratch_allocator->allocate(tmp_tensor.d.size() * sizeof(float)));
 
   tb<4>(tmp_tensor).device(*dev.edevice) = tb<4>(*xs[0]).slice(offsets, extents);
@@ -458,7 +458,7 @@ void StridedSelect::backward_dev_impl(const MyDevice & dev,
 
   // same workaround as in forward pass
   AlignedMemoryPool* scratch_allocator = fx.device->pools[(int)DeviceMempool::SCS];
-  Tensor tmp_tensor(Dim({(unsigned)extents[0],(unsigned)extents[1],(unsigned)extents[2],(unsigned)extents[3]},(unsigned)extents[4]), nullptr, fx.device, fx.mem_pool);
+  Tensor tmp_tensor(Dim({extents[0],extents[1],extents[2],extents[3]},extents[4]), nullptr, fx.device, fx.mem_pool);
   tmp_tensor.v = static_cast<float*>(scratch_allocator->allocate(tmp_tensor.d.size() * sizeof(float)));
   TensorTools::zero(tmp_tensor);
 

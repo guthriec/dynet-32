@@ -841,7 +841,7 @@ float ParameterCollectionStorage::gradient_l2_norm_dev(MyDevice &dev) const {
     else { throw std::runtime_error("Bad device type"); }
     dev_k->mem->free(v);
   }
-  Tensor scratch_t({(unsigned int)all_params.size()}, gradient_norm_scratch, &dev, DeviceMempool::NONE);
+  Tensor scratch_t({static_cast<int>(all_params.size())}, gradient_norm_scratch, &dev, DeviceMempool::NONE);
   Tensor sum_t({1}, gradient_norm_scratch + pi, &dev, DeviceMempool::NONE);
   t<0>(sum_t).device(*dev.edevice) = t<1>(scratch_t).sum().sqrt();
   return gradient_norm_scratch[pi];

@@ -18,10 +18,10 @@ Namely: C2O, C2I.
 */
 
 FastLSTMBuilder::FastLSTMBuilder(unsigned layers,
-                                 unsigned input_dim,
-                                 unsigned hidden_dim,
+                                 int input_dim,
+                                 int hidden_dim,
                                  ParameterCollection& model) : layers(layers), hid(hidden_dim) {
-  unsigned layer_input_dim = input_dim;
+  int layer_input_dim = input_dim;
   local_model = model.add_subcollection("fast-lstm-builder");
   for (unsigned i = 0; i < layers; ++i) {
     // i

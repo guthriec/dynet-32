@@ -33,14 +33,14 @@ private:
 
 //y = \sum_i x_i
 struct MomentDimension : public Node {
-  template <typename T> explicit MomentDimension(const T& a, const std::vector<unsigned> & d, unsigned o, bool b=false, unsigned n=0) : Node(a), dims(d), order(o), include_batch_dim(b), overwrite_n(n) {}
+  template <typename T> explicit MomentDimension(const T& a, const std::vector<int> & d, unsigned o, bool b=false, unsigned n=0) : Node(a), dims(d), order(o), include_batch_dim(b), overwrite_n(n) {}
   DYNET_NODE_DEFINE_DEV_IMPL()
   virtual bool supports_multibatch() const override { return true; }
 private:
-  std::vector<unsigned> dims;
-  unsigned order;
+  std::vector<int> dims;
+  int order;
   bool include_batch_dim;
-  unsigned overwrite_n;
+  int overwrite_n;
 };
 
 // y = \sum_i,j,... x[i,j,...]
@@ -59,11 +59,11 @@ struct StdBatches : public Node {
 
 //y = \sum_i x_i
 struct StdDimension : public Node {
-  template <typename T> explicit StdDimension(const T& a, const std::vector<unsigned> & d, bool b=false, unsigned n=0) : Node(a), dims(d), include_batch_dim(b), overwrite_n(n) {}
+  template <typename T> explicit StdDimension(const T& a, const std::vector<int> & d, bool b=false, unsigned n=0) : Node(a), dims(d), include_batch_dim(b), overwrite_n(n) {}
   DYNET_NODE_DEFINE_DEV_IMPL()
   virtual bool supports_multibatch() const override { return true; }
 private:
-  std::vector<unsigned> dims;
+  std::vector<int> dims;
   bool include_batch_dim;
   unsigned overwrite_n;
 };

@@ -128,9 +128,9 @@ size_t MinDimension::aux_storage_size() const {
 template<class MyDevice>
 void MinDimension::forward_dev_impl(const MyDevice & dev, const vector<const Tensor*>& xs, Tensor& fx) const {
   Eigen::DenseIndex* minmap = static_cast<Eigen::DenseIndex*>(aux_mem);
-  const unsigned batch_size = dim.batch_elems();
-  const unsigned first_dim_size = dim[0];
-  const unsigned second_dim_size = dim[1];
+  const int batch_size = dim.batch_elems();
+  const int first_dim_size = dim[0];
+  const int second_dim_size = dim[1];
   Eigen::TensorMap<Eigen::Tensor<Eigen::DenseIndex, 3>> locs(minmap, first_dim_size, second_dim_size, batch_size);
   const Eigen::array<Eigen::DenseIndex, 1> reduction_axis = {reduced_dim};
   locs.device(*dev.edevice) = tb<3>(*xs[0]).argmin(reduced_dim);
@@ -152,13 +152,13 @@ void MinDimension::backward_dev_impl(const MyDevice & dev,
 #else
   Eigen::DenseIndex* minmap = static_cast<Eigen::DenseIndex*>(aux_mem);
 #endif
-  const unsigned batch_size = dim.batch_elems();
-  const unsigned first_dim_size = dim[0];
-  const unsigned second_dim_size = dim[1];
+  const int batch_size = dim.batch_elems();
+  const int first_dim_size = dim[0];
+  const int second_dim_size = dim[1];
   Eigen::TensorMap<Eigen::Tensor<Eigen::DenseIndex, 3>> locs(minmap, first_dim_size, second_dim_size, batch_size);
-  for(unsigned b = 0; b < batch_size; ++b){
-    for(unsigned j = 0; j < second_dim_size; ++j){
-      for(unsigned i = 0; i < first_dim_size; ++i){
+  for(int b = 0; b < batch_size; ++b){
+    for(int j = 0; j < second_dim_size; ++j){
+      for(int i = 0; i < first_dim_size; ++i){
         if (reduced_dim > second_dim)
           tb<3>(dEdxi).chip<3>(b).chip(locs(i, j, b), reduced_dim).chip(j, second_dim).chip(i, first_dim).device(*dev.edevice)
             += tb<2>(dEdf).chip<2>(b).chip<1>(j).chip<0>(i);
@@ -204,9 +204,9 @@ size_t MaxDimension::aux_storage_size() const {
 template<class MyDevice>
 void MaxDimension::forward_dev_impl(const MyDevice & dev, const vector<const Tensor*>& xs, Tensor& fx) const {
   Eigen::DenseIndex* maxmap = static_cast<Eigen::DenseIndex*>(aux_mem);
-  const unsigned batch_size = dim.batch_elems();
-  const unsigned first_dim_size = dim[0];
-  const unsigned second_dim_size = dim[1];
+  const int batch_size = dim.batch_elems();
+  const int first_dim_size = dim[0];
+  const int second_dim_size = dim[1];
   Eigen::TensorMap<Eigen::Tensor<Eigen::DenseIndex, 3>> locs(maxmap, first_dim_size, second_dim_size, batch_size);
   const Eigen::array<Eigen::DenseIndex, 1> reduction_axis = {reduced_dim};
   locs.device(*dev.edevice) = tb<3>(*xs[0]).argmax(reduced_dim);
@@ -228,13 +228,13 @@ void MaxDimension::backward_dev_impl(const MyDevice & dev,
 #else
   Eigen::DenseIndex* maxmap = static_cast<Eigen::DenseIndex*>(aux_mem);
 #endif
-  const unsigned batch_size = dim.batch_elems();
-  const unsigned first_dim_size = dim[0];
-  const unsigned second_dim_size = dim[1];
+  const int batch_size = dim.batch_elems();
+  const int first_dim_size = dim[0];
+  const int second_dim_size = dim[1];
   Eigen::TensorMap<Eigen::Tensor<Eigen::DenseIndex, 3>> locs(maxmap, first_dim_size, second_dim_size, batch_size);
-  for(unsigned b = 0; b < batch_size; ++b){
-    for(unsigned j = 0; j < second_dim_size; ++j){
-      for(unsigned i = 0; i < first_dim_size; ++i){
+  for(int b = 0; b < batch_size; ++b){
+    for(int j = 0; j < second_dim_size; ++j){
+      for(int i = 0; i < first_dim_size; ++i){
         if (reduced_dim > second_dim)
           tb<3>(dEdxi).chip<3>(b).chip(locs(i, j, b), reduced_dim).chip(j, second_dim).chip(i, first_dim).device(*dev.edevice)
             += tb<2>(dEdf).chip<2>(b).chip<1>(j).chip<0>(i);

@@ -26,8 +26,8 @@ private:
   Parameter p_bias;
   mutable Expression weights;
   mutable Expression bias;
-  unsigned rep_dim;
-  unsigned output_size;
+  int rep_dim;
+  int output_size;
   bool update;
 
   Expression predict(Expression h, ComputationGraph& cg) const;

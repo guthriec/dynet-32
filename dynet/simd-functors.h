@@ -72,7 +72,7 @@ struct functor_traits<dynet::const_minus_op<Scalar> > {
 
 namespace dynet {
 template<typename Scalar> struct scalar_logistic_sigmoid_op {
-  EIGEN_EMPTY_STRUCT_CTOR(scalar_logistic_sigmoid_op)
+  EIGEN_DEFAULT_EMPTY_CONSTRUCTOR_AND_DESTRUCTOR(scalar_logistic_sigmoid_op)
   DYNET_DEVICE_FUNC inline const Scalar operator() (const Scalar& x) const {
     const float one = 1.0f;
     return one / (one + Eigen::numext::exp(-x));
@@ -139,7 +139,7 @@ struct functor_traits<dynet::scalar_logistic_sigmoid_op<Scalar> > {
 
 namespace dynet {
 template<typename Scalar> struct scalar_log_sigmoid_forward_op {
-  EIGEN_EMPTY_STRUCT_CTOR(scalar_log_sigmoid_forward_op)
+  EIGEN_DEFAULT_EMPTY_CONSTRUCTOR_AND_DESTRUCTOR(scalar_log_sigmoid_forward_op)
   DYNET_DEVICE_FUNC inline const Scalar operator() (const Scalar& x) const {
     using std::log1pf;
     // distinguish between positive and negative values of x for precision
@@ -186,7 +186,7 @@ struct functor_traits<dynet::scalar_log_sigmoid_forward_op<Scalar> > {
 
 namespace dynet {
 template<typename Scalar> struct scalar_log_sigmoid_backward_op {
-  EIGEN_EMPTY_STRUCT_CTOR(scalar_log_sigmoid_backward_op)
+  EIGEN_DEFAULT_EMPTY_CONSTRUCTOR_AND_DESTRUCTOR(scalar_log_sigmoid_backward_op)
   DYNET_DEVICE_FUNC EIGEN_STRONG_INLINE const Scalar operator() (const Scalar& t, const Scalar& d) const { 
     return (1 - expf(t)) * d;
   }
@@ -211,7 +211,7 @@ struct functor_traits<dynet::scalar_log_sigmoid_backward_op<Scalar> > {
 
 namespace dynet {
 template<typename Scalar> struct scalar_sqrt_backward_op {
-  EIGEN_EMPTY_STRUCT_CTOR(scalar_sqrt_backward_op)
+  EIGEN_DEFAULT_EMPTY_CONSTRUCTOR_AND_DESTRUCTOR(scalar_sqrt_backward_op)
   DYNET_DEVICE_FUNC inline const Scalar operator() (const Scalar& t, const Scalar& d) const {
     const Scalar two = Scalar(2);
     return d / (two * t);
@@ -238,7 +238,7 @@ struct functor_traits<dynet::scalar_sqrt_backward_op<Scalar> > {
 
 namespace dynet {
 template<typename Scalar> struct scalar_asinh_forward_op {
-  EIGEN_EMPTY_STRUCT_CTOR(scalar_asinh_forward_op)
+  EIGEN_DEFAULT_EMPTY_CONSTRUCTOR_AND_DESTRUCTOR(scalar_asinh_forward_op)
   DYNET_DEVICE_FUNC inline const Scalar operator() (const Scalar& x) const {
 #ifndef __CUDACC__
     return std::asinh(x);
@@ -259,7 +259,7 @@ template<typename Scalar> struct scalar_asinh_forward_op {
 
 namespace dynet {
 template<typename Scalar> struct scalar_acosh_forward_op {
-  EIGEN_EMPTY_STRUCT_CTOR(scalar_acosh_forward_op)
+  EIGEN_DEFAULT_EMPTY_CONSTRUCTOR_AND_DESTRUCTOR(scalar_acosh_forward_op)
   DYNET_DEVICE_FUNC inline const Scalar operator() (const Scalar& x) const {
 #ifndef __CUDACC__
     return std::acosh(x);
@@ -280,7 +280,7 @@ template<typename Scalar> struct scalar_acosh_forward_op {
 
 namespace dynet {
 template<typename Scalar> struct scalar_atanh_forward_op {
-  EIGEN_EMPTY_STRUCT_CTOR(scalar_atanh_forward_op)
+  EIGEN_DEFAULT_EMPTY_CONSTRUCTOR_AND_DESTRUCTOR(scalar_atanh_forward_op)
   DYNET_DEVICE_FUNC inline const Scalar operator() (const Scalar& x) const {
 #ifndef __CUDACC__
     return std::atanh(x);
@@ -301,7 +301,7 @@ template<typename Scalar> struct scalar_atanh_forward_op {
 
 namespace dynet {
 template<typename Scalar> struct scalar_tan_backward_op {
-  EIGEN_EMPTY_STRUCT_CTOR(scalar_tan_backward_op)
+  EIGEN_DEFAULT_EMPTY_CONSTRUCTOR_AND_DESTRUCTOR(scalar_tan_backward_op)
   DYNET_DEVICE_FUNC EIGEN_STRONG_INLINE const Scalar operator() (const Scalar& t, const Scalar& d) const { return (1 + t * t) * d; }
   template<typename Packet>
   DYNET_DEVICE_FUNC EIGEN_STRONG_INLINE const Packet packetOp(const Packet& t, const Packet& d) const {
@@ -324,7 +324,7 @@ struct functor_traits<dynet::scalar_tan_backward_op<Scalar> > {
 
 namespace dynet {
 template<typename Scalar> struct scalar_asin_backward_op {
-  EIGEN_EMPTY_STRUCT_CTOR(scalar_asin_backward_op)
+  EIGEN_DEFAULT_EMPTY_CONSTRUCTOR_AND_DESTRUCTOR(scalar_asin_backward_op)
   DYNET_DEVICE_FUNC inline const Scalar operator() (const Scalar& x, const Scalar& d) const {
     return d / sqrt(1 - x * x);
   }
@@ -350,7 +350,7 @@ struct functor_traits<dynet::scalar_asin_backward_op<Scalar> > {
 
 namespace dynet {
 template<typename Scalar> struct scalar_acos_backward_op {
-  EIGEN_EMPTY_STRUCT_CTOR(scalar_acos_backward_op)
+  EIGEN_DEFAULT_EMPTY_CONSTRUCTOR_AND_DESTRUCTOR(scalar_acos_backward_op)
   DYNET_DEVICE_FUNC inline const Scalar operator() (const Scalar& x, const Scalar& d) const {
     return -d / sqrt(1 - x * x);
   }
@@ -376,7 +376,7 @@ struct functor_traits<dynet::scalar_acos_backward_op<Scalar> > {
 
 namespace dynet {
 template<typename Scalar> struct scalar_atan_backward_op {
-  EIGEN_EMPTY_STRUCT_CTOR(scalar_atan_backward_op)
+  EIGEN_DEFAULT_EMPTY_CONSTRUCTOR_AND_DESTRUCTOR(scalar_atan_backward_op)
   DYNET_DEVICE_FUNC inline const Scalar operator() (const Scalar& x, const Scalar& d) const {
     return d / (x * x + 1);
   }
@@ -403,7 +403,7 @@ struct functor_traits<dynet::scalar_atan_backward_op<Scalar> > {
 
 namespace dynet {
 template<typename Scalar> struct scalar_asinh_backward_op {
-  EIGEN_EMPTY_STRUCT_CTOR(scalar_asinh_backward_op)
+  EIGEN_DEFAULT_EMPTY_CONSTRUCTOR_AND_DESTRUCTOR(scalar_asinh_backward_op)
   DYNET_DEVICE_FUNC inline const Scalar operator() (const Scalar& x, const Scalar& d) const {
     return d / sqrt(x * x + 1);
   }
@@ -429,7 +429,7 @@ struct functor_traits<dynet::scalar_asinh_backward_op<Scalar> > {
 
 namespace dynet {
 template<typename Scalar> struct scalar_acosh_backward_op {
-  EIGEN_EMPTY_STRUCT_CTOR(scalar_acosh_backward_op)
+  EIGEN_DEFAULT_EMPTY_CONSTRUCTOR_AND_DESTRUCTOR(scalar_acosh_backward_op)
   DYNET_DEVICE_FUNC inline const Scalar operator() (const Scalar& x, const Scalar& d) const {
     return d / sqrt(x * x - 1);
   }
@@ -455,7 +455,7 @@ struct functor_traits<dynet::scalar_acosh_backward_op<Scalar> > {
 
 namespace dynet {
 template<typename Scalar> struct scalar_atanh_backward_op {
-  EIGEN_EMPTY_STRUCT_CTOR(scalar_atanh_backward_op)
+  EIGEN_DEFAULT_EMPTY_CONSTRUCTOR_AND_DESTRUCTOR(scalar_atanh_backward_op)
   DYNET_DEVICE_FUNC inline const Scalar operator() (const Scalar& x, const Scalar& d) const {
     return d / (1 - x * x);
   }
@@ -481,7 +481,7 @@ struct functor_traits<dynet::scalar_atanh_backward_op<Scalar> > {
 
 namespace dynet {
 template<typename Scalar> struct scalar_erf_backward_op {
-  EIGEN_EMPTY_STRUCT_CTOR(scalar_erf_backward_op)
+  EIGEN_DEFAULT_EMPTY_CONSTRUCTOR_AND_DESTRUCTOR(scalar_erf_backward_op)
   DYNET_DEVICE_FUNC inline const Scalar operator() (const Scalar& x, const Scalar& d) const {
     const Scalar sqrt_pi_over2(1.1283791670955125738961589);
     return sqrt_pi_over2 * expf(-x * x) * d;
@@ -507,7 +507,7 @@ struct functor_traits<dynet::scalar_erf_backward_op<Scalar> > {
 
 namespace dynet {
 template<typename Scalar> struct scalar_logistic_sigmoid_backward_op {
-  EIGEN_EMPTY_STRUCT_CTOR(scalar_logistic_sigmoid_backward_op)
+  EIGEN_DEFAULT_EMPTY_CONSTRUCTOR_AND_DESTRUCTOR(scalar_logistic_sigmoid_backward_op)
   DYNET_DEVICE_FUNC inline const Scalar operator() (const Scalar& t, const Scalar& d) const {
     const Scalar one = Scalar(1);
     return (one - t) * t * d;
@@ -533,7 +533,7 @@ struct functor_traits<dynet::scalar_logistic_sigmoid_backward_op<Scalar> > {
 
 namespace dynet {
 template<typename Scalar> struct scalar_tanh_backward_op {
-  EIGEN_EMPTY_STRUCT_CTOR(scalar_tanh_backward_op)
+  EIGEN_DEFAULT_EMPTY_CONSTRUCTOR_AND_DESTRUCTOR(scalar_tanh_backward_op)
   DYNET_DEVICE_FUNC EIGEN_STRONG_INLINE const Scalar operator() (const Scalar& t, const Scalar& d) const { return (1 - t * t) * d; }
   template<typename Packet>
   DYNET_DEVICE_FUNC EIGEN_STRONG_INLINE const Packet packetOp(const Packet& t, const Packet& d) const {

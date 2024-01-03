@@ -278,8 +278,8 @@ struct SimpleRNNBuilder : public RNNBuilder {
    * \param support_lags Allow for auxiliary output?
    */
   explicit SimpleRNNBuilder(unsigned layers,
-                            unsigned input_dim,
-                            unsigned hidden_dim,
+                            int input_dim,
+                            int hidden_dim,
                             ParameterCollection& model,
                             bool support_lags = false);
 
@@ -347,7 +347,7 @@ public:
    *
    * \param batch_size Batch size
    */
-  void set_dropout_masks(unsigned batch_size = 1);
+  void set_dropout_masks(int batch_size = 1);
 
   unsigned num_h0_components() const override { return layers; }
 
@@ -374,7 +374,7 @@ private:
   std::vector<Expression> h0;
 
   unsigned layers;
-  unsigned input_dim_, hidden_dim_;
+  int input_dim_, hidden_dim_;
   bool lagging;
 
 

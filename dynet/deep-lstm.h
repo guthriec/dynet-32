@@ -12,8 +12,8 @@ class ParameterCollection;
 struct DeepLSTMBuilder : public RNNBuilder {
   DeepLSTMBuilder() = default;
   explicit DeepLSTMBuilder(unsigned layers,
-                           unsigned input_dim,
-                           unsigned hidden_dim,
+                           int input_dim,
+                           int hidden_dim,
                            ParameterCollection& model);
 
   Expression back() const override { return h.back().back(); }

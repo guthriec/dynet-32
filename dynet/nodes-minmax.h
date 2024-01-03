@@ -30,7 +30,7 @@ struct MinDimension : public Node {
   DYNET_NODE_DEFINE_DEV_IMPL()
   virtual bool supports_multibatch() const override { return true; }
   size_t aux_storage_size() const override;
-  unsigned reduced_dim;
+  int reduced_dim;
   unsigned first_dim;
   unsigned second_dim;
 };
@@ -43,7 +43,7 @@ struct MaxDimension : public Node {
   DYNET_NODE_DEFINE_DEV_IMPL()
   virtual bool supports_multibatch() const override { return true; }
   size_t aux_storage_size() const override;
-  unsigned reduced_dim;
+  int reduced_dim;
   unsigned first_dim;
   unsigned second_dim;
 };

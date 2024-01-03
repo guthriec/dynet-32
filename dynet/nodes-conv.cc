@@ -43,8 +43,8 @@ Dim Filter1DNarrow::dim_forward(const vector<Dim>& xs) const {
     ostringstream s; s << "Bad input dimensions in Filter1DNarrow: " << xs;
     throw std::invalid_argument(s.str());
   }
-  const unsigned fids = (xs[1].ndims() > 2 ? xs[1][2] : 1);
-  return Dim({fids, (unsigned)ocols});
+  const int fids = (xs[1].ndims() > 2 ? xs[1][2] : 1);
+  return Dim({fids, ocols});
 }
 
 #endif
@@ -121,7 +121,7 @@ string FoldRows::as_string(const vector<string>& arg_names) const {
 }
 
 Dim FoldRows::dim_forward(const vector<Dim>& xs) const {
-  unsigned orows = xs[0].rows() / nrows;
+  int orows = xs[0].rows() / nrows;
   if ((orows * nrows != xs[0].rows()) || xs.size() != 1 || xs[0].ndims() > 2) {
     ostringstream s; s << "Bad input dimensions in FoldRows: " << xs;
     throw std::invalid_argument(s.str());
@@ -203,17 +203,17 @@ void KMaxPooling::forward_dev_impl(const MyDevice & dev, const vector<const Tens
   const unsigned first_dim_size = dim[first_dim];
   const unsigned second_dim_size = dim[second_dim];
   Eigen::Tensor<float, 1> tmp(xs[0]->d[pooled_dim]);
-  for (unsigned b = 0; b < batch_size; ++b){
-    for (unsigned j = 0; j < second_dim_size; ++j){
-      for (unsigned i = 0; i < first_dim_size; ++i){
+  for (int b = 0; b < batch_size; ++b){
+    for (int j = 0; j < second_dim_size; ++j){
+      for (int i = 0; i < first_dim_size; ++i){
         // get nth element
         tmp.device(*dev.edevice) = tb<3>(*xs[0]).chip<3>(b).chip(j, second_dim).chip(i, first_dim);
         nth_element(tmp.data(), tmp.data()+(k-1), tmp.data()+tmp.size(), std::greater<float>());
         const float c = tmp.data()[k-1];
         // calculate fx and indices
         tmp.device(*dev.edevice) = tb<3>(*xs[0]).chip<3>(b).chip(j, second_dim).chip(i, first_dim);
-        unsigned tt = 0;
-        for (unsigned l = 0; l < tmp.size(); ++l) {
+        int tt = 0;
+        for (int l = 0; l < tmp.size(); ++l) {
           const float tensor_val = tmp.data()[l];
           if (tensor_val >= c) {
             if (pooled_dim > second_dim){
@@ -257,10 +257,10 @@ void KMaxPooling::backward_dev_impl(const MyDevice & dev,
   const unsigned first_dim_size = dim[first_dim];
   const unsigned second_dim_size = dim[second_dim];
   const unsigned pooled_dim_size = dim[pooled_dim];
-  for(unsigned b = 0; b < batch_size; ++b){
-    for(unsigned j = 0; j < second_dim_size; ++j){
-      for(unsigned i = 0; i < first_dim_size; ++i){
-        for(unsigned l = 0; l < pooled_dim_size; ++l){
+  for(int b = 0; b < batch_size; ++b){
+    for(int j = 0; j < second_dim_size; ++j){
+      for(int i = 0; i < first_dim_size; ++i){
+        for(int l = 0; l < pooled_dim_size; ++l){
           if (pooled_dim > second_dim)
             tb<3>(dEdxi).chip<3>(b).chip(locs(i, j, l, b), pooled_dim).chip(j, second_dim).chip(i, first_dim).device(*dev.edevice)
               += tb<3>(dEdf).chip<3>(b).chip<2>(l).chip<1>(j).chip<0>(i);
@@ -289,7 +289,7 @@ string KMHNGram::as_string(const vector<string>& arg_names) const {
 
 Dim KMHNGram::dim_forward(const vector<Dim>& xs) const {
   DYNET_ARG_CHECK(xs[0].ndims() == 2, "Bad input dimensions in KMHNGram: " << xs);
-  const unsigned new_cols = xs[0].cols() - n + 1;
+  const int new_cols = xs[0].cols() - n + 1;
   DYNET_ARG_CHECK(new_cols >= 1, "Bad input dimensions in KMHNGram: " << xs);
   return Dim({xs[0][0], new_cols});
 }

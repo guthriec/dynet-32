@@ -1,0 +1,14 @@
+load("@rules_foreign_cc//foreign_cc:defs.bzl", "cmake")
+
+filegroup(
+  name = "all",
+  srcs = glob(["**"]),
+)
+
+cmake(
+    name = "dynet",
+    lib_source = ":all",
+    out_static_libs = ["libdynet.a"],
+    visibility = ["//visibility:public"],
+)
+

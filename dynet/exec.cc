@@ -302,7 +302,7 @@ void BatchedExecutionEngine::combine_tensors(
   AlignedMemoryPool *mempool = tout.device->pools[(int)DeviceMempool::FXS];
   // Determine needed memory for tout and get list of nodes corresponding to
   // specified argument.
-  unsigned total_dsize = 0;
+  int total_dsize = 0;
   vector<VariableIndex> arg_nodes(batch_ids.size());
   for (unsigned i = 0; i < batch_ids.size(); ++i) {
     const auto nid = cg.nodes[batch_ids[i]]->args[aid];
@@ -639,7 +639,7 @@ const Tensor& BatchedExecutionEngine::incremental_forward_no_update(
                        "Must have either a single node or a batch to execute");
           // Copy the things from the linked list to the actual batch.
           abptr = active_batched[curr_prof];
-          assert(abptr != (VariableIndex)0);
+          DYNET_ASSERT(abptr != (VariableIndex)0, "");
           my_batch.ids.resize(active_batched[curr_prof+uptop1]);
           for (auto it = my_batch.ids.rbegin();
                it != my_batch.ids.rend(); ++it) {
@@ -803,7 +803,7 @@ const Tensor& BatchedExecutionEngine::incremental_forward_no_update(
         // Set the size for the final output
         nfx.device = node->device;
         nfx.mem_pool = DeviceMempool::FXS;
-        nfx.d = Dim({(unsigned int)tot_main});
+        nfx.d = Dim({(int)tot_main});
         nfx.v = head_main;
       }  // batch_ids.size() > 1 condition
     }  // loop over all batches
@@ -857,7 +857,7 @@ const Tensor& BatchedExecutionEngine::incremental_forward_no_update(
             VariableIndex aid = cg.nodes[*(it++)]->args[i];
             float *min_node =
                 batches[node2batch[aid]].nfx.v + node2offset[aid];
-            unsigned int tot_arg = node2size[aid];
+            int tot_arg = node2size[aid];
             bool contig = true;
             while (it != itend && contig) {
               aid = cg.nodes[*(it++)]->args[i];

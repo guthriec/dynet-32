@@ -37,7 +37,7 @@ struct HingeDim : public Node {
   const std::vector<unsigned>* pelement;
   std::vector<std::vector<unsigned> > elements;
   const std::vector<std::vector<unsigned> >* pelements;
-  unsigned d;
+  int d;
   real margin;
   size_t input_size;
 };

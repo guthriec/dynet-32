@@ -13,10 +13,10 @@ namespace dynet {
 enum { X2I, H2I, C2I, BI, X2O, H2O, C2O, BO, X2C, H2C, BC };
 
 DeepLSTMBuilder::DeepLSTMBuilder(unsigned layers,
-                         unsigned input_dim,
-                         unsigned hidden_dim,
+                         int input_dim,
+                         int hidden_dim,
                          ParameterCollection& model) : layers(layers) {
-  unsigned layer_input_dim = input_dim;
+  int layer_input_dim = input_dim;
   local_model = model.add_subcollection("deep-lstm-builder");
   for (unsigned i = 0; i < layers; ++i) {
     // i

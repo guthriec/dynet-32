@@ -24,10 +24,10 @@ void TreeLSTMBuilder::copy(const RNNBuilder&) { throw std::runtime_error("copy()
 // http://arxiv.org/pdf/1503.00075v3.pdf
 NaryTreeLSTMBuilder::NaryTreeLSTMBuilder(unsigned N,
                          unsigned layers,
-                         unsigned input_dim,
-                         unsigned hidden_dim,
+                         int input_dim,
+                         int hidden_dim,
                          ParameterCollection& model) : layers(layers), N(N), cg(nullptr) {
-  unsigned layer_input_dim = input_dim;
+  int layer_input_dim = input_dim;
   local_model = model.add_subcollection("nary-tree-lstm-builder");
   for (unsigned i = 0; i < layers; ++i) {
     // i

@@ -111,7 +111,7 @@ public:
    * \param pc Parameter collection
    * \param bias Whether to use a bias vector or not
    */
-  StandardSoftmaxBuilder(unsigned rep_dim, unsigned num_classes, ParameterCollection& pc,bool bias=true);
+  StandardSoftmaxBuilder(int rep_dim, int num_classes, ParameterCollection& pc,bool bias=true);
   /**
    * \brief Builds a softmax layer with pre-existing parameters
    * 
@@ -166,7 +166,7 @@ class ClassFactoredSoftmaxBuilder : public SoftmaxBuilder {
    * \param pc ParameterCollection
    * \param bias Whether to use a bias vector or not
    */
-  ClassFactoredSoftmaxBuilder(unsigned rep_dim,
+  ClassFactoredSoftmaxBuilder(int rep_dim,
                               const std::string& cluster_file,
                               Dict& word_dict,
                               ParameterCollection& pc,

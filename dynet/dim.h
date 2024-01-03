@@ -46,7 +46,7 @@ struct Dim {
    *
    * \param x List of dimensions
    */
-  Dim(std::initializer_list<unsigned int> x) : nd(0), bd(1) {
+  Dim(std::initializer_list<int> x) : nd(0), bd(1) {
     DYNET_ARG_CHECK(
         x.size() <= DYNET_MAX_TENSOR_DIM,
         "Out of bounds exception in Dim::Dim() with initializer_list of size "
@@ -59,7 +59,7 @@ struct Dim {
    * \param x  List of dimensions
    * \param b Batch size
    */
-  Dim(std::initializer_list<unsigned int> x, unsigned int b) : nd(0), bd(b) {
+  Dim(std::initializer_list<int> x, int b) : nd(0), bd(b) {
     DYNET_ARG_CHECK(
         x.size() <= DYNET_MAX_TENSOR_DIM,
         "Out of bounds exception in Dim::Dim() with initializer_list of size "
@@ -96,14 +96,14 @@ struct Dim {
    * \brief Total size of a batch
    * \return Batch size * size of a batch
    */
-  inline unsigned int size() const {
+  inline int size() const {
     return batch_size() * bd;
   }
   /**
    * \brief Size of a batch (product of all dimensions)
    * \return Size of a batch
    */
-  inline unsigned int batch_size() const {
+  inline int batch_size() const {
     unsigned int p = 1;
     for (unsigned int i = 0; i < nd; ++i) p *= d[i];
     return p;
@@ -157,7 +157,7 @@ struct Dim {
    * \brief Size of the first dimension
    * \return Size of the first dimension
    */
-  inline unsigned int rows() const { return d[0]; }
+  inline int rows() const { return d[0]; }
   /**
    * \brief Number of non-one dimensions
    * \return Number of non-one dimensions
@@ -173,12 +173,12 @@ struct Dim {
    * \brief Size of the second dimension (or 1 if only one dimension)
    * \return Size of the second dimension (or 1 if only one dimension)
    */
-  inline unsigned int cols() const { return nd > 1 ? d[1] : 1; }
+  inline int cols() const { return nd > 1 ? d[1] : 1; }
   /**
    * \brief Batch dimension
    * \return Batch dimension
    */
-  inline unsigned int batch_elems() const { return bd; }
+  inline int batch_elems() const { return bd; }
   /**
    * \brief Set specific dimension
    * \details Set the value of a specific dimension to an arbitrary value
@@ -197,14 +197,14 @@ struct Dim {
    * \param i Dimension index
    * \return Size of dimension i
    */
-  inline unsigned int operator[](unsigned int i) const { return i < nd ? d[i] : 1; }
+  inline int operator[](unsigned int i) const { return i < nd ? d[i] : 1; }
   /**
    * \brief Size of dimension i
    *
    * \param i Dimension index
    * \return Size of dimension i
    */
-  inline unsigned int size(unsigned int i) const { return (*this)[i]; }
+  inline int size(unsigned int i) const { return (*this)[i]; }
   /**
    * \brief Remove one of the dimensions
    * \param i index of the dimension to be removed
@@ -231,7 +231,7 @@ struct Dim {
    * \param dims dimensions to be removed
    * \param reduce_batch reduce the batch dimension or not
    */
-  inline void delete_dims(std::vector<unsigned int> dims, bool reduce_batch){
+  inline void delete_dims(std::vector<int> dims, bool reduce_batch){
     std::vector<bool> deleted_dims(nd, false);
 
     for(unsigned int i = 0; i < dims.size(); i++) {
@@ -298,9 +298,9 @@ struct Dim {
   **/
   void print_profile(std::ostream & out) const;
 
-  unsigned int d[DYNET_MAX_TENSOR_DIM]; /**< Array of dimension */
+  int d[DYNET_MAX_TENSOR_DIM]; /**< Array of dimension */
   unsigned int nd; /**< Number of dimensions */
-  unsigned int bd; /**< Batch dimension */
+  int bd; /**< Batch dimension */
 };
 
 /**

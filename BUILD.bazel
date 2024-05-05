@@ -1,14 +1,55 @@
-load("@rules_foreign_cc//foreign_cc:defs.bzl", "cmake")
+load("@rules_foreign_cc//foreign_cc:defs.bzl", "cmake_variant")
+
+package(
+  default_visibility = ["//visibility:public"],
+)
 
 filegroup(
   name = "all",
-  srcs = glob(["**"]),
+  srcs = glob(["**/*.h", "**/*.cc", "**/*CMakeLists*", "**/*.cmake"]),
 )
 
-cmake(
-    name = "dynet",
+filegroup(
+  name = "headers",
+  srcs  = glob(["dynet/*.h"]),
+)
+
+cc_import(
+  name = "dynet",
+  visibility = ["//visibility:public"],
+  hdrs = [":headers"],
+  static_library = ":dynet-lib",
+)
+
+genrule(
+  name = "dynet-lib",
+  srcs = [
+    ":all",
+    "@eigen//:all",
+  ],
+  cmd = "export EM_CACHE=.; mkdir src; mkdir eigen; gcp --parents $(locations @dynet//:all) src; gcp --parents $(locations @eigen//:all) eigen;  mkdir build; cd build; cmake -E env CXXFLAGS=\"-pthread\" emcmake cmake -DEIGEN3_INCLUDE_DIR=../eigen/external/eigen -DRELEASE_OPT_LEVEL=3 ../src/external/dynet; emmake make -j 4; cd ..; cp build/dynet/libdynet.a $(OUTS)",
+  outs = ["libdynet.a"],
+)
+
+genrule(
+  name = "include-dynet",
+  srcs = [":make-dynet"],
+  outs = ["include"],
+  cmd = "mkdir $(OUTS); cp $(SRCS)/include/* $(OUTS)",
+)
+
+genrule(
+  name = "dynet-lib-old",
+  srcs = [":make-dynet"],
+  outs = ["libdynet2.a"],
+  cmd = "ls $(SRCS); cp $(SRCS)/libdynet.a $(OUTS)",
+)
+
+cmake_variant(
+    name = "dynet-foreign",
+    visibility = ["//visibility:public"],
+    toolchain = "//bazel/toolchains:emsdk_cmake_toolchain",
     lib_source = ":all",
     out_static_libs = ["libdynet.a"],
-    visibility = ["//visibility:public"],
 )
 

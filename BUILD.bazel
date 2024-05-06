@@ -27,7 +27,7 @@ genrule(
     ":all",
     "@eigen//:all",
   ],
-  cmd = "export EM_CACHE=.; mkdir src; mkdir eigen; gcp --parents $(locations @dynet//:all) src; gcp --parents $(locations @eigen//:all) eigen;  mkdir build; cd build; cmake -E env CXXFLAGS=\"-pthread\" emcmake cmake -DEIGEN3_INCLUDE_DIR=../eigen/external/eigen -DRELEASE_OPT_LEVEL=3 ../src/external/dynet; emmake make -j 4; cd ..; cp build/dynet/libdynet.a $(OUTS)",
+  cmd = "export EM_CACHE=.; mkdir src; mkdir eigen; parent_enabled_copy --parents $(locations @dynet//:all) src; parent_enabled_copy --parents $(locations @eigen//:all) eigen;  mkdir build; cd build; cmake -E env CXXFLAGS=\"-pthread\" emcmake cmake -DEIGEN3_INCLUDE_DIR=../eigen/external/eigen -DRELEASE_OPT_LEVEL=3 ../src/external/dynet; emmake make -j 4; cd ..; cp build/dynet/libdynet.a $(OUTS)",
   outs = ["libdynet.a"],
 )
 

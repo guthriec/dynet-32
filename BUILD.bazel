@@ -36,7 +36,7 @@ genrule(
     " mkdir build; cd build;" +
      "echo bbb; sleep 1;" +
     "echo .; ls .; echo ..; ls ..; echo ../eigen; ls ../eigen; echo ../src/external; ls ../src/external; echo ../eigen/external/eigen; ls ../eigen/external/eigen;" +
-    "cmake -E env CXXFLAGS=\"-pthread\" emcmake cmake -DEIGEN3_INCLUDE_DIR=../eigen/external/eigen -DRELEASE_OPT_LEVEL=3 ../src/external/dynet;",# +
+    "cmake -E env CXXFLAGS=\"-pthread\" emcmake cmake -DEIGEN3_INCLUDE_DIR=../eigen/external/eigen -DRELEASE_OPT_LEVEL=3 ../src/external/dynet || ls . && ls CMakeFiles && cat CMakeFiles/CMakeError.log;",# +
     #"echo 789; sleep 1;" +
     #"emmake make -j 4; cd ..; cp build/dynet/libdynet.a $(OUTS)",
   outs = ["libdynet.a"],
